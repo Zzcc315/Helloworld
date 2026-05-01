@@ -29,6 +29,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Autowired
     private EmployeeMapper employeeMapper;
+    @Autowired
+    private EmployeeService employeeService;
 
     /**
      * 员工登录
@@ -101,6 +103,24 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .updateTime(LocalDateTime.now())
                 .updateUser(BaseContext.getCurrentId())
                 .build();
+        employeeMapper.update(employee);
+    }
+
+//    @Override
+
+    public Employee getById(Long id) {
+        Employee employee =  employeeMapper.getById(id);
+        employee.setPassword("*****");
+        return employee;
+    }
+
+//    @Override
+
+    public void change(EmployeeDTO employeeDTO) {
+        Employee employee = new Employee();
+        BeanUtils.copyProperties( employeeDTO, employee );
+        employee.setUpdateTime(LocalDateTime.now());
+        employee.setUpdateUser(BaseContext.getCurrentId());
         employeeMapper.update(employee);
     }
 }
