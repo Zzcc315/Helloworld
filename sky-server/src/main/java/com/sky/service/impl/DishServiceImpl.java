@@ -18,11 +18,13 @@ import com.sky.vo.DishVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @Slf4j
@@ -37,6 +39,9 @@ public class DishServiceImpl implements DishService {
 
     @Autowired
     private SetmealDishMapper setmealDishMapper;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
 
 //    @Override
     @Transactional
@@ -132,6 +137,11 @@ public class DishServiceImpl implements DishService {
                     .build();
             dishMapper.updateDish(dish);
     }
+    /**
+     * 条件查询菜品和口味
+     * @param dish
+     * @return
+     */
     public List<DishVO> listWithFlavor(Dish dish) {
         List<Dish> dishList = dishMapper.list(dish);
 
@@ -150,4 +160,7 @@ public class DishServiceImpl implements DishService {
 
         return dishVOList;
     }
+
+
+
 }
